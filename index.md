@@ -8,6 +8,6 @@
 ### Kotlin
 
 ### Flutter
-* [Compare To React Native] ({{ site.baseurl }}{% post_url 2019-03-08-flutter-vs-react-native %})
+* [Compare To React Native]({{ site.baseurl }}{% post_url 2019-03-08-flutter-vs-react-native %})
 
 ### Algorithms
