@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "Flutter vs React Native"
-cateogiries: [programming]
-tags: [flutter,react-native,cross platform,mobile development]
+title: "React Native and Flutter"
+cateogiries: []
+tags: [flutter,react-native,cross platform framework, mobile development]
 author: Dooyoung Gi
 ---
 
