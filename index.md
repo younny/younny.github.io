@@ -9,7 +9,7 @@
 
 ### Flutter
 
-* [React Native and Flutter]({{ site.baseurl }}{% post_url 2019-03-09-flutter-vs-react-native %})
+* [React Native and Flutter]({{ site.baseurl }}{% post_url 2019-03-09-react-native-and-flutter %})
 
 
 ### Algorithms
