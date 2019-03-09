@@ -8,6 +8,8 @@
 ### Kotlin
 
 ### Flutter
-* [Flutter vs React Native]({{ site.baseurl }}{% post_url 2019-03-08-flutter-vs-react-native %})
+
+* [React Native and Flutter]({{ site.baseurl }}{% post_url 2019-03-09-flutter-vs-react-native %})
+
 
 ### Algorithms
