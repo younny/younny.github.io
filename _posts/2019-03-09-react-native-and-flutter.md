@@ -8,8 +8,21 @@ author: Dooyoung Gi
 
 
 When I first knew React Native about 2 years ago, it was fascinating that I could develop iOS application using almost same codebase and especially reload/hot-reload functionalities which made improvement on UI development cycle. I used React Native as mobile development tool for couple of projects in real. Things seemed going smoothly at the begining phase, but I found lots of issues and limitations that RN(React Native) has. Navigation, conflicts between two platforms(iOS and Android), harder implementation of some simple widgets, so on.
-<br>Recently, I got a chance to learn another cross platform framework Flutter developed by Google. I made simple demo application which requires fairly tricky animation effects and it’s interesting that how I quickly implemented these animations just in few days using Flutter (Even Dart lang was new to me). So I came up with writing about functionalities that these two platforms have and compare them. It might be too early for me to compare both because I’ve learned Flutter only about 2 months now, but I will just put my overall thoughts on that so that it could help some developers or clients thinking to use React Native or Flutter (even any other framework) for their product.
+<br>Recently, I got a chance to learn another cross platform framework Flutter developed by Google. I made simple demo application which requires fairly tricky animation effects and it’s interesting that how I quickly implemented these animations just in few days using Flutter (Even Dart lang was new to me).
+<br>
+<br>
+This is the demo app that I made using Flutter.
+<br>
+<img 
+  src="https://github.com/younny/younny.github.io/blob/master/assets/reward_simulation.gif" 
+  width="270" 
+  height="480" />
+<br>
+<br>
+So I came up with writing about functionalities that these two platforms have and compare them. It might be too early for me to compare both because I’ve learned Flutter only about 2 months now, but I will just put my overall thoughts on that so that it could help some developers or clients thinking to use React Native or Flutter (even any other framework) for their product.
+<br>
 
+  
 ### Development Environment, Language
 
 | Framework    | Language     | type             |
