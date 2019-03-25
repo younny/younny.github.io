@@ -13,9 +13,9 @@ When I first knew React Native about 2 years ago, it was fascinating that I coul
 This is the demo app that I made using Flutter.
 <br>
 <img 
-  src="https://github.com/younny/younny.github.io/blob/master/assets/reward_simulation.gif" 
+  src="https://github.com/younny/younny.github.io/blob/master/assets/reward_demo.gif" 
   width="270" 
-  height="480" />
+  height="560" />
 <br>
 <br>
 So I wanted to dig more about this framework and came up with the idea of writing about functionalities that these two platforms have and compare them. I'm still at an early stage to write about Flutter, it is just my overall thoughts on these frameworks hoping that it helps somebody who is thinking to use React Native or Flutter (even any other framework) for their product.
