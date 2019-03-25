@@ -13,7 +13,7 @@ When I first knew React Native about 2 years ago, it was fascinating that I coul
 This is the demo app that I made using Flutter.
 <br>
 <img 
-  src="https://github.com/younny/younny.github.io/blob/master/assets/reward_demo.gif" 
+  src="/assets/reward_demo.gif" 
   width="270" 
   height="560" />
 <br>
