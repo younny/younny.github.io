@@ -7,110 +7,159 @@ author: Dooyoung Gi
 ---
 
 
-When I first knew React Native about 2 years ago, it was fascinating that I could develop iOS application using almost the same codebase and especially reload/hot-reload functionalities which made improvement on UI development cycle. One of the best benefits of using these cross platform frameworks is flexible accessibility between different platforms with just one language. As the demands of these tools are increasing, number of frameworks exist. Recently, I got a chance to learn another cross platform framework "Flutter" developed by Google. I made a simple demo application which requires fairly tricky animation effects and it’s interesting how I quickly implemented these animations just in few days using Flutter (Even Dart lang was new to me).
-<br>
-<br>
-This is the demo app that I made using Flutter.
-<br>
+<p>&nbsp;When I first knew about React Native 2 yaers ago, it was fascinating that I could develop iOS application using almost the same codebase and especially reload/hot-reload functionalities which made significant improvement on UI development cycle.
+</p>
+<p>
+&nbsp;One of the best benefits of using a cross platform framework is flexible accessibility between different platforms with just one language. But nothing can be perfectly satisfied, always comes with some losses. While I’m using React Native, I’ve been faced many problems such as platform conflicts and limited support for some simple components. Essentially these kinds of situation are inevitable if you’re using cross-platform framework, not story about only React Native. Nevertheless as the demands of these tools are increasing for many benefits, various frameworks are out there. Recently, I got a chance to learn another cross platform framework ‘Flutter’ developed by Google. I made a simple demo application which requires fairly tricky animation effects.
+</p>
+<p>
+&nbsp;This is the demo app that I made using Flutter. The main goal of this demo is implementing these features below,</p>
+
+* Horizontal scroll view to show top deals available.
+* Capture && Drop animation effects for ‘add to favorites’
+* Vertical drawer to see favorited items.
+* Hero(Shared elements) animation to navigate to details screen.
+
 <img 
   src="/assets/reward_demo.gif" 
   width="270" 
   height="560" />
 <br>
-<br>
-So I wanted to dig more about this framework and came up with the idea of writing about functionalities that these two platforms have and compare them. I'm still at an early stage to write about Flutter, it is just my overall thoughts on these frameworks hoping that it helps somebody who is thinking to use React Native or Flutter (even any other framework) for their product.
-<br>
+[The design is made from my colleage](https://medium.com/fm-stories/how-developers-and-designers-can-collaborate-using-flutter-35b3e49046ca)
 
+<p>
+&nbsp;It’s quite surprising how I quickly implemented these animations just in few days using Flutter even though Dart was also new to me. (*Flutter uses Dart language). So I came up with the idea of writing about functionalities that I found out useful in Flutter and compare it to React Native. I still have lots of things to try out in Flutter and this comparison might be seen not fair enough. So, this is just my overall thoughts on these two frameworks and hoping that it helps somebody who is thinking to use React Native or Flutter (even any other cross-platform framework) for their product in the future.
+</p>
+<br>
   
-### Language
+### How do they work behind
 
-| Framework    | Language     | type             |
-|:-------------|:-------------|:-----------------|
-| Flutter      | Dart         | static, dynamic  |
-| React Native | JavaScript   | dynamic          |
+| Framework    | Language     | Environment                              |
+|:-------------|:-------------|:-----------------------------------------|
+| Flutter      | Dart         | DartVM                                   |
+| React Native | JavaScript   | JavaScriptVM(JavaScriptCore, Chrome V8)  |
 
-React Native uses JavaScript, and Flutter uses Dart. Before going further, I needed to learn what and how it works behind before running on native. [Thanks to this article](https://hacks.mozilla.org/2017/02/a-crash-course-in-just-in-time-jit-compilers/)
-* Interpreter - Translation happens line by line, quick. But no optimization. Fit to dynamic typed language such as JavaScript.
-* Compiler - Go through all compilation steps. Takes more time for optimization but it runs faster at runtime. AOT(Ahead of Time)
-* JIT compiler (Just in Time) - Go through all interpretation when it's executed. Optimizing compiler runs when it's called by monitor. Dynamic, but could be de-optimized, slow execution time.
+<p>&nbsp;Flutter uses Dart and runs on DartVM. Basically DartVM has two ways to execute Dart code. One is JIT and the other one is AOT snapshots. In debug mode, Flutter creates persistent process which uses state caches to re-compile only the part which is changed, and this comes to as hot-reload in Dart JIT. In profile and release mode, Flutter uses AppAOT snapshots which shows faster startup time and best performance without warm-up time.</p>
 
-One of the reasons why Flutter uses Dart is because Dart supports both AOT and JIT types. In development, it uses JIT so that generates faster development cycle. For production environment, uses AOT so that it could have more stable and better performance when it's running. And Dart is typed language, it can be compiled to native code directly through AOT compilation. (*AOT is recently introduced in Flutter so it's slower than JIT yet.*)
-<br>React Native works differently. There is a 'Bridge' which gives interface between JavaScriptVM and native platforms. RN makes JavaScript bundle file, and sends signal to bridge to execute program from the native entry point. JavaScript thread which got this signal, started issuing work to do from its bundle code.
+<p>&nbsp;In React Native, it uses JavaScript and runs on Chrome engine for debugging mode. Since JavaScript is dynamically typed language, it’s best for utilizing JIT but not applicable to AOT. So RN uses JavaScriptCore to interpret JavaScript. These engines will create bundle file written in JavaScript and pass it to ‘bridge’ which gives interface between native platforms and JavaScriptVM. JavaScript thread which got this signal, started issuing work to do from its bundle code.</p>
 
+<br>
 
 ### Module Dependencies
-Cross platform framework requires external modules (packages in Flutter) to extend its functionality. When I use React Native, this is the hardest part. If each module are depending different versions of React Native or React, I had to choose lower version of the module. (Upgrading React Native or React version has more risk that brings more conflicts with other modules.) Even I finally found working pairs of them, unfortunately I figure out this module conflicts on another platform. Well, once you finally found one, you got to link it to each platform. Normally it doesn't work simply such as using 'react-native link'. Sometimes you need to designate module path for both platform in separated way. I can't say Flutter doesn't have this kind of issues at all, but so far I wasn't annoyed yet.
+&nbsp;Cross platform framework requires external modules (called ‘plugins’ in Flutter) to extend its functionality. Therefore, module dependency issues are not unusual things when it comes to cross-platform engineering. So I just want to mention about what I experienced when I use React Native. If some external modules that I need are depending on different versions of React Native or React, I alternatively had to choose lower version of the module. (For me, upgrading React Native / React version was more risky because it can generate other conflicts from somewhere else.) Even though you finally find some working sets of them, still should check if there is any conflict on another platform. After install required modules, it needs to be linked to native(Android and iOS). React Native provides useful command line tool ‘react-native link’ to add dependency, but sometimes you have to designate module path manually for both platform in separated way. Therefore, you will be required to know more deeply about native platform than you expected. This is something you can experience if your app gets bigger and relies on various modules. It’s too early to talk about this issue in Flutter, but so far I didn’t have to go through all these kinds of procedures in Flutter yet, just configuring package spec file fixed some version mismatch issues.
 
+<br>
 
-### Built-in Components(Widgets)
-Flutter offers plenty of useful widgets. Actually it is all about 'Widget'. For example, it gives Cupertino theme for iOS and Material for Android. Using Theme widget, you can just grab pretty much every UI element for each platform without thinking about tedious style numbering and looking for measurements. Animation widgets Such as Hero and SliverWidget give rich effects and handy implementation.
+### Built-in Components (Widgets)
+&nbsp;Both React Native and Flutter offers many useful built-in UI components(*It's called widget in Flutter*). In React Native, there are basic components and some platform specific components for iOS and Android. In this way, some native components may not work properly on other platform so you need to selectively use them. One thing I'm still uncomfortable about React Native is Navigation. It's not a built-in and officially suggests external modules. From my experience, navigation modules commonly used are not so handy to implement even though navigation is one of the most essential factors for mobile application.
 
+In Flutter, it also offers plenty of rich built-in widgets. Essentially it is all about 'Widget' and the range of built-in widgets is really wide. For example, it gives Cupertino theme for iOS and Material for Android. Using these Theme widget, you can just grab pretty much every UI element for each platform without thinking about tedious style numbering and looking for measurement specs. Such as Hero and SliverWidget are already embedded with rich animation effects. 'Hero' widget is actually what I used for the demo application above.
+
+&nbsp;Another widget that I found out useful in Flutter is 'RichText' widget. In React Native, if I need to change some part of style of characters within paragraph, I had to translate it as html format and then able to apply different styles. But using 'RichText', you can put multiple TextSpan child widgets inside of it and give various styles on each of them.
+
+&nbsp;Although these conveniences, depending on widgets which already has lots of functionlities itself such as 'Hero', makes the app difficult to customize in personal taste.
+
+<br>
 
 ### Styling
-Flutter doesn't have custom style sheet. Padding, Margin, Alignment all of styles come as a Widget. You wrap these widgets with another widgets and it's called 'Widget Tree'.
+&nbsp; In React Native, it uses JSX syntax just like HTML but with React component. And for the style of each component, it uses StyleSheet and it has really similar to CSS. Here I wrote some code to render simple text components.
 ```
-// It renders 3 rows of text widgets with some styling 
-// and it's about 50 lines of code.
+// index.js
+<View style={styles.container}>
+  <Text style={styles.textOne}>Text 1</Text>
+  <Text style={styles.textTwo}>Text 2</Text>
+  <Text style={styles.textThree}>Text 3</Text>
+</View>
+
+// styles.js
+StyleSheet.create({
+  container: {
+    flex: 1,
+    width: '100%',
+    paddingHorizontal: 8,
+    paddingVertical: 16,
+    alignItems: 'flex-start',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#fff'
+  },
+  textOne: {
+    fontSize: 12,
+    color: 'white',
+    padding: 10,
+  },
+  textTwo: {
+    fontSize: 22,
+    color: '#333333',
+    padding: 5
+  },
+  textThree: {
+    fontSize: 14,
+    color: 'black',
+    padding: 8
+  }
+})
+``` 
+&nbsp;In Flutter by the way, it doesn't have separate style sheet. Inside build() function, it's required to return Widget to render view. Such as padding, Margin, Alignment etc. all of style components come as a Widget. You wrap widgets with another widgets and so on, and it's called 'Widget Tree'. 
+
+&nbsp;I added a code snippet below to help you understand how it's different compare to React Native. As above RN code, it also renders 3 Text widgets in a column with each text style inside decorated box container.
+```
 Container(
-                  decoration: BoxDecoration(
-                    color: deal.themeColor,
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(10.0),
-                        bottomRight: Radius.circular(10.0)
-                    ),
-                  ),
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          deal.category.toUpperCase(),
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12.0
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            deal.title,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 22.0
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          '~ ${getDate(deal.exp)}',
-                          style: TextStyle(
-                              color: Colors.white.withOpacity(0.7),
-                              fontSize: 14.0
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(10.0),
+          bottomRight: Radius.circular(10.0)
+      ),
+    ),
+    width: double.infinity,
+    padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            "Text 1",
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 12.0
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            "Text 2",
+            style: TextStyle(
+                color: Colors.yellow,
+                fontWeight: FontWeight.bold,
+                fontSize: 22.0
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            "Text 3",
+            style: TextStyle(
+                color: Colors.white.withOpacity(0.7),
+                fontSize: 14.0
+            ),
+          ),
+        )
+      ],
+    ),
+  )
 ```
-It is too long to render just a few Text UI. I don't like it. But you're going to become familiar quickly once you start using Flutter (It's all about widget). Actually I felt it convenient especially when using hot-reload. You can expect which style is combined to which widget, even though you don't know about Flutter at all. 
-One of widgets that I liked in Flutter is 'RichText' widget. In RN, if I need to change some part of style of characters within paragraph, I had to translate it as html format and then able to apply different styles. But using 'RichText', you can put multiple TextSpan child widgets inside of it and give various styles.
+&nbsp;Padding is a widget able to contain single child widget to pass its padding property. Column is a widget extending Flex widget and it gives vertical alignment to its multiple child widgets.
 
-### Navigation
-I didn't like navigation part in React Native. The most common module is react-navigation and the official documentation refers this one to use. But actually it is animation effects which mocks navigation behavior. I exactly saw this issue such as double tapping navigates screen twice. (At the time when I use React Native, there was an upgrade to v2 but I couldn't try on my project because it has breaking changes and I didn't want to mess it up.) Another suggested module is using native component but it was early stage for production use. Even now I don't see any clear solution about navigation provided by React Native. I tried making simple navigation app using the latest version of react-navigation. It requires me to install another module 'react-native-gesture-handler'. And additional codes into android native. Finally I could see drawer. (One more step, added icon assets, they don't come together.) 
-In Flutter, there is Navigator Widget. In its official documentation, "A Widget that manages a set of child widgets a stack discipline". It supports "Stack" only. For example, screens included in drawer navigator have same hierarchy. So 'navigate' between these screens means parallely. React Native's navigation module has not only push and pop but also 'navigate'. But in Flutter, there seems only push, pop, replace and delete for Navigator actions. Therefore, to implement screen transition between drawer screens, you can give different view per state changes. It sounds like view exchange rather than transition. Maybe Flutter will add more functionalities for Navigation in the future, but not so many features available for now.
+&nbsp;I tried to make a similar amount of view using both frameworks. Flutter code seems longer and more verbose than React Native, but it really depends on your preference. If you are a web developer, React Native way would much easier for you. From my case, I was originally an android developer and familiar to separating styling part from rendering one. But actually it didn't take long time to adjust Flutter syntax. As it shown, it's intuitive. You can expect what style is combined to which widget even though you don't know about Flutter at all. Personally I felt that the widget tree is quite convenient especially when tweaking UI using hot-reload because you can see how the view is constructed with styles in a single view and also the changes that you made.
 
+<br>
 
 ### Conclusion
- I've used React Native quite long time and could see many aspects of it. This post seems like becoming my complains about React Native but it doesn't mean that React Native is bad and Flutter is the best alternative of RN or any other framework. Various built-in widgets provided by Flutter are easy to implement but might be less customizable and the application can be too much rely on Flutter. And some of functionalities are not ready yet. For now I'm just using Flutter for learning purpose, but when it comes to real project, all the major issues of that tool will appear up once the product gets bigger. Especially cross platform framework like Flutter or React Native, essentially they are trying to be native not native itself. Therefore my last thought on it, when you are considering to use cross platform framework rather than native, look into it carefully whether the key functionalities and the goal of your product can be satisfied enough with the framework or not. Its "code-reuse" specialty can give you fast development cycle and easy pathway for team. But the worst situation is you are eventually handling all of the parts separately, the framework, ios and android.
+&nbsp;I used React Native as a mobile development tool for quite a long time and could see lots of difficulties as well as benefits. From what I learned from Flutter, various built-in widgets provided are easy to implement but could be less customizable and the application can be too much dependent on Flutter. Every tool comes with pros and cons, so I strongly recommend you to actually try them out. 
+For now I'm just using Flutter for learning purposes, but when it comes to real project, all the major issues of that tool will appear up once the product gets bigger. Especially cross platform framework like Flutter or React Native, essentially they are trying best to do act like native not native. So they may not show you the best performance as much as native but will give you flexible accessibility between different platforms and "code-reuse" benefits. Therefore, when you are considering to use cross platform framework rather than native, look into it carefully whether the key functionalities and the goal of your product can be satisfied enough with the framework or not. 
+
 
 
